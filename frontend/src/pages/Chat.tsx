@@ -56,11 +56,39 @@ const Chat = () => {
         });
     }
   }, [auth]);
+
+
+  // useEffect(() => {
+  //   if (!auth?.user) {
+  //     return navigate("/login");
+  //   }
+  // }, [auth]);
+
   useEffect(() => {
     if (!auth?.user) {
       return navigate("/login");
     }
+
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        handleSubmit();
+      }
+    };
+
+    const inputElement = inputRef.current;
+    if (inputElement) {
+      inputElement.addEventListener("keypress", handleKeyPress);
+    }
+
+    return () => {
+      if (inputElement) {
+        inputElement.removeEventListener("keypress", handleKeyPress);
+      }
+    };
   }, [auth]);
+
+
+
   return (
     <Box
       sx={{
@@ -100,7 +128,6 @@ const Chat = () => {
             }}
           >
             {auth?.user?.name[0]}
-            {auth?.user?.name.split(" ")[1][0]}
           </Avatar>
           <Typography sx={{ mx: "auto", fontFamily: "work sans" }}>
             You are talking to a ChatBOT

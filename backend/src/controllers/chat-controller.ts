@@ -30,6 +30,7 @@ export const generateChatCompletion = async (
 
     const response: OpenAI.Chat.ChatCompletion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
+      //@ts-ignore
       messages: chats,
       max_tokens: 20,
     })
