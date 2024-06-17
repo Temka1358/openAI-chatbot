@@ -37,7 +37,7 @@ export const userSignup = async (req: Request, res: Response, next: NextFunction
       domain: DOMAIN,
       httpOnly: true,
       signed: true,
-      sameSite: 'None'
+      sameSite: 'none'
     });
 
     const token = createToken(user._id.toString(), user.email, "7d");
