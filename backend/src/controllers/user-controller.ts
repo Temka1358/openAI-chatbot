@@ -4,6 +4,8 @@ import { hash, compare } from "bcrypt";
 import { createToken } from "../utils/token-manager.js";
 import { COOKIE_NAME } from "../utils/constants.js";
 
+const DOMAIN = '219.94.251.92';
+
 export const getAllusers = async (
   req: Request,
   res: Response,
@@ -43,7 +45,7 @@ export const userSignup = async (
     res.clearCookie(COOKIE_NAME),
       {
         path: "/",
-        domain: "localhost",
+        domain: DOMAIN,
         httpOnly: true,
         signed: true,
       };
@@ -55,10 +57,11 @@ export const userSignup = async (
 
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "localhost",
+      domain: DOMAIN,
       expires,
       httpOnly: true,
       signed: true,
+      sameSite: "none",
     });
 
     return res
@@ -92,7 +95,7 @@ export const userLogin = async (
     res.clearCookie(COOKIE_NAME),
       {
         path: "/",
-        domain: "localhost",
+        domain: DOMAIN,
         httpOnly: true,
         signed: true,
       };
@@ -104,10 +107,11 @@ export const userLogin = async (
 
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-    //   domain: "localhost",
+      domain: DOMAIN,
       expires,
       httpOnly: true,
       signed: true,
+      sameSite: "none",
     });
 
     return res
@@ -171,7 +175,7 @@ export const userLogout = async (
       res.clearCookie(COOKIE_NAME),
       {
         path: "/",
-        domain: "localhost",
+        domain: DOMAIN,
         httpOnly: true,
         signed: true,
       };
