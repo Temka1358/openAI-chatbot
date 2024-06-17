@@ -35,9 +35,10 @@ export const userSignup = async (req: Request, res: Response, next: NextFunction
     res.clearCookie(COOKIE_NAME, {
       path: "/",
       domain: DOMAIN,
-      httpOnly: true,
       signed: true,
-      sameSite: 'none'
+      httpOnly: true,
+      sameSite: 'none',
+      secure: false
     });
 
     const token = createToken(user._id.toString(), user.email, "7d");
@@ -52,7 +53,7 @@ export const userSignup = async (req: Request, res: Response, next: NextFunction
       httpOnly: true,
       signed: true,
       sameSite: 'none',
-      secure: true  
+      secure: false
     });
 
     return res.status(201).json({ message: "OK", name: user.name, email: user.email });
@@ -81,7 +82,9 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
       domain: DOMAIN,
       httpOnly: true,
       signed: true,
-      sameSite: 'none'
+      sameSite: 'none',
+      secure: false
+
     });
 
     const token = createToken(user._id.toString(), user.email, "7d");
@@ -96,7 +99,8 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
       httpOnly: true,
       signed: true,
       sameSite: 'none',
-      secure: true  // Do not set secure to true since you are not using HTTPS
+      secure: false
+
     });
 
     return res.status(200).json({ message: "OK", name: user.name, email: user.email });
@@ -141,7 +145,8 @@ export const userLogout = async (req: Request, res: Response, next: NextFunction
       domain: DOMAIN,
       httpOnly: true,
       signed: true,
-      sameSite: 'none'
+      sameSite: 'none',
+      secure: false
     });
 
     return res.status(200).json({ message: "OK", name: user.name, email: user.email });
