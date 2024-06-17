@@ -51,7 +51,7 @@ export const userSignup = async (req: Request, res: Response, next: NextFunction
       expires,
       httpOnly: true,
       signed: true,
-      sameSite: 'None',
+      sameSite: 'none',
       secure: false  // Do not set secure to true since you are not using HTTPS
     });
 
@@ -81,7 +81,7 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
       domain: DOMAIN,
       httpOnly: true,
       signed: true,
-      sameSite: 'None'
+      sameSite: 'none'
     });
 
     const token = createToken(user._id.toString(), user.email, "7d");
@@ -95,7 +95,7 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
       expires,
       httpOnly: true,
       signed: true,
-      sameSite: 'None',
+      sameSite: 'none',
       secure: false  // Do not set secure to true since you are not using HTTPS
     });
 
@@ -141,7 +141,7 @@ export const userLogout = async (req: Request, res: Response, next: NextFunction
       domain: DOMAIN,
       httpOnly: true,
       signed: true,
-      sameSite: 'None'
+      sameSite: 'none'
     });
 
     return res.status(200).json({ message: "OK", name: user.name, email: user.email });
