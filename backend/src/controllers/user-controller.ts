@@ -6,7 +6,7 @@ import { COOKIE_NAME } from "../utils/constants.js";
 
 const DOMAIN = '219.94.251.92';
 
-export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+export const getAllusers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const users = await User.find();
     console.log(users);
