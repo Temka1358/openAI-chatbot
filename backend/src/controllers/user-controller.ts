@@ -37,7 +37,7 @@ export const userSignup = async (req: Request, res: Response, next: NextFunction
       domain: DOMAIN,
       signed: true,
       httpOnly: true,
-      sameSite: 'none',
+      sameSite: 'lax',
       secure: false
     });
 
@@ -52,7 +52,7 @@ export const userSignup = async (req: Request, res: Response, next: NextFunction
       expires,
       httpOnly: true,
       signed: true,
-      sameSite: 'none',
+      sameSite: 'lax',
       secure: false
     });
 
@@ -82,7 +82,7 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
       domain: DOMAIN,
       httpOnly: true,
       signed: true,
-      sameSite: 'none',
+      sameSite: 'lax',
       secure: false
 
     });
@@ -98,7 +98,7 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
       expires,
       httpOnly: true,
       signed: true,
-      sameSite: 'none',
+      sameSite: 'lax',
       secure: false
 
     });
@@ -145,7 +145,7 @@ export const userLogout = async (req: Request, res: Response, next: NextFunction
       domain: DOMAIN,
       httpOnly: true,
       signed: true,
-      sameSite: 'none',
+      sameSite: 'lax',
       secure: false
     });
 
