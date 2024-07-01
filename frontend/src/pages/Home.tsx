@@ -18,33 +18,10 @@ const Home = () => {
           mt: 3,
         }}
       >
-        <Box>
-          <TypingAnim />
-        </Box>
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            flexDirection: { md: "row", xs: "column", sm: "column" },
-            gap: 5,
-            my: 10,
-          }}
-        >
-          <img
-            src="robot.png"
-            alt="robot"
-            style={{ width: "200px", margin: "auto" }}
-          />
-          <img
-            className="image-inverted rotate"
-            src="openai.png"
-            alt="openai"
-            style={{ width: "200px", margin: "auto" }}
-          />
-        </Box>
+       <h1>Pratice english with Kozmoz AI agent</h1>
         <Box sx={{ display: "flex", mx: "auto" }}>
           <img
-            src="chat.png"
+            src="chat_image.png"
             alt="chatbot"
             style={{
               display: "flex",

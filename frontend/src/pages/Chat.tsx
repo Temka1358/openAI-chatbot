@@ -52,7 +52,7 @@ const Chat = () => {
         })
         .catch((err) => {
           console.log(err);
-          // toast.error("Loading Failed", { id: "loadchats" });
+          toast.error("Loading Failed", { id: "loadchats" });
         });
     }
   }, [auth]);
@@ -171,7 +171,7 @@ const Chat = () => {
             fontWeight: "600",
           }}
         >
-          Model - GPT 3.5 Turbo
+          Ask Anyting, Anytime, Anywhere
         </Typography>
         <Box
           sx={{
