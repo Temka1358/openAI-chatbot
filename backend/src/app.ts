@@ -10,7 +10,23 @@ config();
 const app = express();
 
 //*** Middlewares  *** 
-app.use(cors({origin: 'http://219.94.251.92',   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE' ,credentials: true}))
+// Allowed origins
+const allowedOrigins = ['http://219.94.251.92'];
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (allowedOrigins.includes(origin) || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    allowedHeaders: 'Content-Type,Authorization'
+};
+
+
+app.use(cors(corsOptions))
 //it will parse imconing data as json
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET))
