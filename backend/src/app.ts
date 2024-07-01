@@ -10,7 +10,7 @@ config();
 const app = express();
 
 //*** Middlewares  *** 
-app.use(cors({origin: 'http://219.94.251.92', credentials: true}))
+app.use(cors({origin: 'http://219.94.251.92',   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE' ,credentials: true}))
 //it will parse imconing data as json
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET))

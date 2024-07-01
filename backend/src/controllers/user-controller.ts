@@ -4,7 +4,7 @@ import { hash, compare } from "bcrypt";
 import { createToken } from "../utils/token-manager.js";
 import { COOKIE_NAME } from "../utils/constants.js";
 
-const DOMAIN = 'localhost';
+const DOMAIN = '219.94.251.92';
 
 export const getAllusers = async (req: Request, res: Response, next: NextFunction) => {
   try {
