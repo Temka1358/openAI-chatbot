@@ -11,7 +11,7 @@ const app = express();
 
 //*** Middlewares  *** 
 // Allowed origins
-const allowedOrigins = ['http://219.94.251.92'];
+const allowedOrigins = ['http://219.94.251.92', 'http://localhost:5173'];
 const corsOptions = {
     origin: (origin, callback) => {
         if (allowedOrigins.includes(origin) || !origin) {

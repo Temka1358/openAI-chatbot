@@ -1,6 +1,6 @@
 
 import { Router } from "express";
-import { getAllusers, userSignup, userLogin, verifyUser,  userLogout } from "../controllers/user-controller.js";
+import { getAllusers, userSignup, userLogin, verifyUser,  userLogout, setUserLevel } from "../controllers/user-controller.js";
 import { signupValidator, loginValidator, validate } from "../utils/validators.js";
 import { verifyToken } from "../utils/token-manager.js";
 
@@ -11,5 +11,6 @@ userRouter.post('/signup', validate(signupValidator) ,userSignup)
 userRouter.post('/login', validate(loginValidator) ,userLogin)
 userRouter.get('/auth-status', verifyToken, verifyUser);
 userRouter.get('/logout', verifyToken, userLogout);
+userRouter.post('/setLevel', verifyToken, setUserLevel);
 
 export default userRouter;

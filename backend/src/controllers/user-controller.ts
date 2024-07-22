@@ -6,29 +6,46 @@ import { COOKIE_NAME } from "../utils/constants.js";
 
 const DOMAIN = '219.94.251.92';
 
-export const getAllusers = async (req: Request, res: Response, next: NextFunction) => {
+export const getAllusers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const users = await User.find();
     console.log(users);
     return res.status(200).json({ message: "OK", users });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Internal Server Error", cause: error.message });
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error", cause: error.message });
   }
 };
 
-export const userSignup = async (req: Request, res: Response, next: NextFunction) => {
+export const userSignup = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const { name, email, password } = req.body;
+    const { firstName, lastName, email, password, eikenLevel, age } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(401).json({ message: "User already exists" });
+      return res.status(401).json({ message: "User/email already registered" });
     }
 
     const hashedPassword = await hash(password, 10);
 
-    const user = new User({ name, email, password: hashedPassword });
+    const user = new User({
+      firstName,
+      lastName,
+      age,
+      eikenLevel,
+      email,
+      password: hashedPassword,
+    });
     await user.save();
 
     // Clear old token, create token, and store token
@@ -37,8 +54,8 @@ export const userSignup = async (req: Request, res: Response, next: NextFunction
       domain: DOMAIN,
       signed: true,
       httpOnly: true,
-      sameSite: 'lax',
-      secure: false
+      sameSite: "lax",
+      secure: false,
     });
 
     const token = createToken(user._id.toString(), user.email, "7d");
@@ -52,18 +69,31 @@ export const userSignup = async (req: Request, res: Response, next: NextFunction
       expires,
       httpOnly: true,
       signed: true,
-      sameSite: 'lax',
-      secure: false
+      sameSite: "lax",
+      secure: false,
     });
 
-    return res.status(201).json({ message: "OK", name: user.name, email: user.email });
+    return res
+      .status(201)
+      .json({
+        message: "OK",
+        name: user.firstName,
+        email: user.email,
+        level: user.eikenLevel,
+      });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Internal Server Error", cause: error.message });
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error", cause: error.message });
   }
 };
 
-export const userLogin = async (req: Request, res: Response, next: NextFunction) => {
+export const userLogin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -73,7 +103,7 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
 
     const isPasswordCorrect = await compare(password, user.password);
     if (!isPasswordCorrect) {
-      return res.status(403).json({ message: "Wrong password" });
+      return res.status(401).json({ message: "Password is incorrect" });
     }
 
     // Clear old token, create token, and store token
@@ -82,9 +112,8 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
       domain: DOMAIN,
       httpOnly: true,
       signed: true,
-      sameSite: 'lax',
-      secure: false
-
+      sameSite: "lax",
+      secure: false,
     });
 
     const token = createToken(user._id.toString(), user.email, "7d");
@@ -98,43 +127,66 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
       expires,
       httpOnly: true,
       signed: true,
-      sameSite: 'lax',
-      secure: false
-
+      sameSite: "lax",
+      secure: false,
     });
 
-    return res.status(200).json({ message: "OK", name: user.name, email: user.email });
+    return res
+      .status(200)
+      .json({
+        message: "OK",
+        name: user.firstName,
+        email: user.email,
+        level: user.eikenLevel,
+      });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Internal Server Error", cause: error.message });
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error", cause: error.message });
   }
 };
 
-export const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
+export const verifyUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const user = await User.findById(res.locals.jwtData.id);
     console.log(user);
     if (!user) {
-      return res.status(401).json({ message: "User not registered or token malfunction" });
+      return res
+        .status(401)
+        .json({ message: "User not registered or token malfunction" });
     }
     if (user._id.toString() !== res.locals.jwtData.id) {
       return res.status(401).json({ message: "Permission did not match" });
     }
 
-    return res.status(200).json({ message: "OK", name: user.name, email: user.email });
+    return res
+      .status(200)
+      .json({ message: "OK", name: user.firstName, email: user.email });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Internal Server Error", cause: error.message });
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error", cause: error.message });
   }
 };
 
-export const userLogout = async (req: Request, res: Response, next: NextFunction) => {
+export const userLogout = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   console.log("User logout");
   try {
     const user = await User.findById(res.locals.jwtData.id);
-    console.log(user);
     if (!user) {
-      return res.status(401).json({ message: "User not registered or token malfunction" });
+      return res
+        .status(401)
+        .json({ message: "User not registered or token malfunction" });
     }
     if (user._id.toString() !== res.locals.jwtData.id) {
       return res.status(401).json({ message: "Permission did not match" });
@@ -145,13 +197,51 @@ export const userLogout = async (req: Request, res: Response, next: NextFunction
       domain: DOMAIN,
       httpOnly: true,
       signed: true,
-      sameSite: 'lax',
-      secure: false
+      sameSite: "lax",
+      secure: false,
     });
 
-    return res.status(200).json({ message: "OK", name: user.name, email: user.email });
+    return res
+      .status(200)
+      .json({ message: "OK", name: user.firstName, email: user.email });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Internal Server Error", cause: error.message });
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error", cause: error.message });
+  }
+};
+
+export const setUserLevel = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await User.findById(res.locals.jwtData.id);
+    if (!user) {
+      return res
+        .status(401)
+        .json({ message: "User not registered or token malfunction" });
+    }
+    if (user._id.toString() !== res.locals.jwtData.id) {
+      return res.status(401).json({ message: "Permission did not match" });
+    }
+    const { level } = req.body;
+    user.eikenLevel = level;
+    await user.save();
+    return res
+      .status(200)
+      .json({
+        message: "OK",
+        name: user.firstName,
+        email: user.email,
+        level: user.eikenLevel,
+      });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error", cause: error.message });
   }
 };
