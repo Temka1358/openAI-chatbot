@@ -1,38 +1,51 @@
 import React, { useEffect } from "react";
-import { IoIosLogIn } from "react-icons/io";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import CustomizedInput from "../components/shared/CustomizedInput";
 import { toast } from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+
 const Signup = () => {
   const navigate = useNavigate();
   const auth = useAuth();
+  const [eikenLevel, setEikenLevel] = React.useState("");
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const name = formData.get("name") as string;
+    const lastName = formData.get("lastName") as string;
+    const firstName = formData.get("firstName") as string;
+    const age = formData.get("age") as string;
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+
+    // Debugging: Log each value to ensure they're being correctly parsed
+    console.log("First Name:", firstName);
+    console.log("Last Name:", lastName);
+    console.log("Age:", age);
+    console.log("Eiken Level:", eikenLevel);
+    console.log("Email:", email);
+    console.log("Password:", password);
+
     try {
       toast.loading("Signing Up", { id: "signup" });
-      await auth?.signup(name, email, password);
+      await auth?.signup(firstName, lastName, parseInt(age, 10), parseInt(eikenLevel, 10), email, password);
       toast.success("Signed Up Successfully", { id: "signup" });
     } catch (error) {
       console.log(error);
-      toast.error("Signing Up Failed", { id: "signup" });
+      //@ts-ignore
+      toast.error(error.response.data.message, { id: "signup" });
     }
   };
+
   useEffect(() => {
     if (auth?.user) {
-      return navigate("/chat");
+      navigate("/chat");
     }
-  }, [auth]);
+  }, [auth, navigate]);
+
   return (
     <Box width={"100%"} height={"100%"} display="flex" flex={1}>
-      {/* <Box padding={8} mt={8} display={{ md: "flex", sm: "none", xs: "none" }}>
-        <img src="airobot.png" alt="Robot" style={{ width: "400px" }} />
-      </Box> */}
       <Box
         display={"flex"}
         flex={{ xs: 1, md: 0.5 }}
@@ -67,7 +80,26 @@ const Signup = () => {
             >
               Signup
             </Typography>
-            <CustomizedInput type="text" name="name" label="Name" />
+            <CustomizedInput type="text" name="firstName" label="First Name" />
+            <CustomizedInput type="text" name="lastName" label="Last Name" />
+            <CustomizedInput type="number" name="age" label="Age" />
+            <FormControl fullWidth sx={{ mt: 2 }}>
+              <InputLabel id="eiken-level-label">English Level</InputLabel>
+              <Select
+                labelId="eiken-level-label"
+                id="eiken-level"
+                value={eikenLevel}
+                label="Eiken Level"
+                onChange={(e) => setEikenLevel(e.target.value)}
+                sx={{ color: "white" }}
+              >
+                <MenuItem value={1} sx={{ color: "black" }}>Beginner</MenuItem>
+                <MenuItem value={2} sx={{ color: "black" }}>Elementary</MenuItem>
+                <MenuItem value={3} sx={{ color: "black" }}>Intermediate</MenuItem>
+                <MenuItem value={4} sx={{ color: "black" }}>Upper Intermediate</MenuItem>
+                <MenuItem value={5} sx={{ color: "black" }}>Advanced</MenuItem>
+              </Select>
+            </FormControl>
             <CustomizedInput type="email" name="email" label="Email" />
             <CustomizedInput type="password" name="password" label="Password" />
             <Button
@@ -78,7 +110,8 @@ const Signup = () => {
                 mt: 2,
                 width: "400px",
                 borderRadius: 2,
-                bgcolor: "#00fffc",
+                bgcolor: "#004d56",
+                color: "white",
                 fontSize: "18px",
                 ":hover": {
                   bgcolor: "white",

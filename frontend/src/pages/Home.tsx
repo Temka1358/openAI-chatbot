@@ -1,6 +1,5 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
-import TypingAnim from "../components/typer/TypingAnim";
 import Footer from "../components/footer/Footer";
 
 const Home = () => {
@@ -18,7 +17,7 @@ const Home = () => {
           mt: 3,
         }}
       >
-       <h1>Pratice english with Kozmoz AI agent</h1>
+       <h1>Pratice english with Kozmoz chatbot</h1>
         <Box sx={{ display: "flex", mx: "auto" }}>
           <img
             src="chat_image.png"

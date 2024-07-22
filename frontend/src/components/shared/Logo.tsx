@@ -18,7 +18,15 @@ const Logo = () => {
           textShadow: "2px 2px 20px #000",
         }}
       >
-        <span style={{ fontSize: "20px" }}>Kozmoz</span>-chatbot
+        <Link
+          to="/"
+          style={{
+            color: "white",
+            textDecoration: "none",
+          }}
+        >
+          <span style={{ color: "#64f3d5", fontSize: "20px" }}>Kozmoz</span> chatbot
+        </Link>
       </Typography>
     </div>
   );

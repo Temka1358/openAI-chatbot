@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Box, Avatar, Typography, Button, IconButton } from "@mui/material";
+import { Box, Avatar, Typography, Button, IconButton, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
 import red from "@mui/material/colors/red";
 import { useAuth } from "../context/AuthContext";
 import ChatItem from "../components/chat/ChatItem";
@@ -11,15 +11,19 @@ import {
   sendChatRequest,
 } from "../helpers/api-communicator";
 import toast from "react-hot-toast";
+
 type Message = {
   role: "user" | "assistant";
   content: string;
 };
+
 const Chat = () => {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null); // Ref for chat container
   const auth = useAuth();
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
+
   const handleSubmit = async () => {
     const content = inputRef.current?.value as string;
     if (inputRef && inputRef.current) {
@@ -29,8 +33,8 @@ const Chat = () => {
     setChatMessages((prev) => [...prev, newMessage]);
     const chatData = await sendChatRequest(content);
     setChatMessages([...chatData.chats]);
-    //
   };
+
   const handleDeleteChats = async () => {
     try {
       toast.loading("Deleting Chats", { id: "deletechats" });
@@ -42,6 +46,24 @@ const Chat = () => {
       toast.error("Deleting chats failed", { id: "deletechats" });
     }
   };
+
+  const handleLevelChange = async (event: React.ChangeEvent<{ value: unknown }>) => {
+    const newLevel = event.target.value as number;
+    try {
+      await auth?.updateUserLevel(newLevel);
+      toast.success("User level updated successfully");
+      const newMessage: Message = {
+        role: "user",
+        content: `My english level is ${newLevel} now. Please response accordong to my new level from now on`,
+      };
+      setChatMessages((prev) => [...prev, newMessage]);
+      const chatData = await sendChatRequest(newMessage.content);
+      setChatMessages([...chatData.chats]);
+    } catch (error) {
+      toast.error("Failed to update user level");
+    }
+  };
+
   useLayoutEffect(() => {
     if (auth?.isLoggedIn && auth.user) {
       toast.loading("Loading Chats", { id: "loadchats" });
@@ -57,12 +79,11 @@ const Chat = () => {
     }
   }, [auth]);
 
-
-  // useEffect(() => {
-  //   if (!auth?.user) {
-  //     return navigate("/login");
-  //   }
-  // }, [auth]);
+  useEffect(() => {
+    if (!auth?.user) {
+      return navigate("/login");
+    }
+  }, [auth]);
 
   useEffect(() => {
     if (!auth?.user) {
@@ -87,7 +108,12 @@ const Chat = () => {
     };
   }, [auth]);
 
-
+  useEffect(() => {
+    // Scroll to the bottom when chatMessages changes
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [chatMessages]);
 
   return (
     <Box
@@ -132,8 +158,26 @@ const Chat = () => {
           <Typography sx={{ mx: "auto", fontFamily: "work sans" }}>
             You are talking to a ChatBOT
           </Typography>
+          <Box sx={{ mx: "auto", my: 2 }}>
+            <Typography>Set English level</Typography>
+            <FormControl fullWidth sx={{ maxWidth: 200 }}>
+              <Select
+                id="user-level"
+                value={auth?.user?.level || ""}
+                //@ts-ignore
+                onChange={handleLevelChange}
+                sx={{ color: "white" }}
+              >
+                <MenuItem value={1} sx={{ fontWeight: auth?.user?.level === 1 ? 'bold' : 'normal', color: 'black' }}>Beginner</MenuItem>
+                <MenuItem value={2} sx={{ fontWeight: auth?.user?.level === 2 ? 'bold' : 'normal', color: 'black' }}>Elementary</MenuItem>
+                <MenuItem value={3} sx={{ fontWeight: auth?.user?.level === 3 ? 'bold' : 'normal', color: 'black' }}>Intermediate</MenuItem>
+                <MenuItem value={4} sx={{ fontWeight: auth?.user?.level === 4 ? 'bold' : 'normal', color: 'black' }}>Upper Intermediate</MenuItem>
+                <MenuItem value={5} sx={{ fontWeight: auth?.user?.level === 5 ? 'bold' : 'normal', color: 'black' }}>Advanced</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
           <Typography sx={{ mx: "auto", fontFamily: "work sans", my: 4, p: 3 }}>
-            You can any question you want. Example: Can you explain me past perfect tense?
+            You can ask any question you want. Example: Can you explain me past perfect tense?
           </Typography>
           <Button
             onClick={handleDeleteChats}
@@ -171,9 +215,10 @@ const Chat = () => {
             fontWeight: "600",
           }}
         >
-          Ask Anyting, Anytime, Anywhere
+          Ask Anything, Anytime, Anywhere
         </Typography>
         <Box
+          ref={chatContainerRef}
           sx={{
             width: "100%",
             height: "60vh",
@@ -188,7 +233,6 @@ const Chat = () => {
           }}
         >
           {chatMessages.map((chat, index) => (
-            //@ts-ignore
             <ChatItem content={chat.content} role={chat.role} key={index} />
           ))}
         </Box>
@@ -201,7 +245,6 @@ const Chat = () => {
             margin: "auto",
           }}
         >
-          {" "}
           <input
             ref={inputRef}
             type="text"

@@ -19,7 +19,8 @@ const Login = () => {
       toast.success("Signed In Successfully", { id: "login" });
     } catch (error) {
       console.log(error);
-      toast.error("Signing In Failed", { id: "login" });
+      //@ts-ignore
+      toast.error(error.response.data.message, { id: "login" });
     }
   };
   useEffect(() => {
@@ -77,7 +78,8 @@ const Login = () => {
                 width: "400px",
                 fontSize: "18px",
                 borderRadius: 2,
-                bgcolor: "#00fffc",
+                bgcolor: "#004d56",
+                color: "white",
                 ":hover": {
                   bgcolor: "white",
                   color: "black",

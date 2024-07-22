@@ -7,13 +7,13 @@ const Footer = () => {
       <div
         style={{
           width: "100%",
-          minHeight: "20vh",
-          maxHeight: "30vh",
+          minHeight: "10vh",
+          maxHeight: "20vh",
           marginTop: 60,
         }}
       >
         <p style={{ fontSize: "30px", textAlign: "center", padding: "20px" }}>
-          Study english with <Link to={"https://eigowo.com"}>Kozmoz</Link>
+          Study english with {" "}<a href="https://eigowo.com" target="_blank" rel="noreferrer">Kozmoz</a>
         </p>
       </div>
     </footer>

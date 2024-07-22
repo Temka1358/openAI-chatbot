@@ -4,7 +4,12 @@
   padding: 2rem;
   text-align: center;
 }
-
+footer {
+  width: 50%;
+  min-height: 10vh;
+  max-height: 20vh;
+  margin-top: 60px;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
