@@ -168,11 +168,11 @@ const Chat = () => {
                 onChange={handleLevelChange}
                 sx={{ color: "white" }}
               >
-                <MenuItem value={1} sx={{ fontWeight: auth?.user?.level === 1 ? 'bold' : 'normal', color: 'black' }}>Beginner</MenuItem>
-                <MenuItem value={2} sx={{ fontWeight: auth?.user?.level === 2 ? 'bold' : 'normal', color: 'black' }}>Elementary</MenuItem>
-                <MenuItem value={3} sx={{ fontWeight: auth?.user?.level === 3 ? 'bold' : 'normal', color: 'black' }}>Intermediate</MenuItem>
-                <MenuItem value={4} sx={{ fontWeight: auth?.user?.level === 4 ? 'bold' : 'normal', color: 'black' }}>Upper Intermediate</MenuItem>
-                <MenuItem value={5} sx={{ fontWeight: auth?.user?.level === 5 ? 'bold' : 'normal', color: 'black' }}>Advanced</MenuItem>
+                <MenuItem value={1} sx={{ fontWeight: auth?.user?.level === 1 ? 'bold' : 'normal', color: 'black' }}>1</MenuItem>
+                <MenuItem value={2} sx={{ fontWeight: auth?.user?.level === 2 ? 'bold' : 'normal', color: 'black' }}>2</MenuItem>
+                <MenuItem value={3} sx={{ fontWeight: auth?.user?.level === 3 ? 'bold' : 'normal', color: 'black' }}>3</MenuItem>
+                <MenuItem value={4} sx={{ fontWeight: auth?.user?.level === 4 ? 'bold' : 'normal', color: 'black' }}>4 </MenuItem>
+                <MenuItem value={5} sx={{ fontWeight: auth?.user?.level === 5 ? 'bold' : 'normal', color: 'black' }}>5</MenuItem>
               </Select>
             </FormControl>
           </Box>

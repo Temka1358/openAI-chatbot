@@ -19,14 +19,6 @@ const Signup = () => {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    // Debugging: Log each value to ensure they're being correctly parsed
-    console.log("First Name:", firstName);
-    console.log("Last Name:", lastName);
-    console.log("Age:", age);
-    console.log("Eiken Level:", eikenLevel);
-    console.log("Email:", email);
-    console.log("Password:", password);
-
     try {
       toast.loading("Signing Up", { id: "signup" });
       await auth?.signup(firstName, lastName, parseInt(age, 10), parseInt(eikenLevel, 10), email, password);
@@ -34,7 +26,7 @@ const Signup = () => {
     } catch (error) {
       console.log(error);
       //@ts-ignore
-      toast.error(error.response.data.message, { id: "signup" });
+      toast.error(error.response.data.message || error.response.data.errors[0].msg, { id: "signup" });
     }
   };
 
@@ -93,11 +85,11 @@ const Signup = () => {
                 onChange={(e) => setEikenLevel(e.target.value)}
                 sx={{ color: "white" }}
               >
-                <MenuItem value={1} sx={{ color: "black" }}>Beginner</MenuItem>
-                <MenuItem value={2} sx={{ color: "black" }}>Elementary</MenuItem>
-                <MenuItem value={3} sx={{ color: "black" }}>Intermediate</MenuItem>
-                <MenuItem value={4} sx={{ color: "black" }}>Upper Intermediate</MenuItem>
-                <MenuItem value={5} sx={{ color: "black" }}>Advanced</MenuItem>
+                <MenuItem value={1} sx={{ color: "black" }}>1 Beginner</MenuItem>
+                <MenuItem value={2} sx={{ color: "black" }}>2</MenuItem>
+                <MenuItem value={3} sx={{ color: "black" }}>3</MenuItem>
+                <MenuItem value={4} sx={{ color: "black" }}>4</MenuItem>
+                <MenuItem value={5} sx={{ color: "black" }}>5</MenuItem>
               </Select>
             </FormControl>
             <CustomizedInput type="email" name="email" label="Email" />

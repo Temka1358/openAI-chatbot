@@ -8,6 +8,7 @@ type Props = {
 const CustomizedInput = (props: Props) => {
   return (
     <TextField
+      required
       margin="normal"
       InputLabelProps={{ style: { color: "white" } }}
       name={props.name}
