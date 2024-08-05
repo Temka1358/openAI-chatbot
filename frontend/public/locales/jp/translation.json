@@ -1,0 +1,16 @@
+
+{
+    "login": "サインイン",
+    "signup": "サインアップ",
+    "firstname" : "名前",
+    "lastname" : "名字",
+    "email" : "メールアドレス",
+    "password" : "パスワード",
+    "confirmPassword" : "パスワードを確認",
+    "age": "年齢",
+    "level": "英語レベル",
+    "goToChat": "チャットに移動",
+    "logout": "ログアウト",
+    "setLevel" : "英語レベルを設定",
+    "clearConversation" : "会話をクリア"
+  }

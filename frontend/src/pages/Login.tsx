@@ -5,9 +5,12 @@ import CustomizedInput from "../components/shared/CustomizedInput";
 import { toast } from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
+
 const Login = () => {
   const navigate = useNavigate();
   const auth = useAuth();
+  const { t } = useTranslation();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -65,10 +68,10 @@ const Login = () => {
               padding={2}
               fontWeight={600}
             >
-              Login
+              {t('login')}
             </Typography>
-            <CustomizedInput type="email" name="email" label="Email" />
-            <CustomizedInput type="password" name="password" label="Password" />
+            <CustomizedInput type="email" name="email" label={t('email')} />
+            <CustomizedInput type="password" name="password" label={t('password')} />
             <Button
               type="submit"
               sx={{
@@ -86,7 +89,7 @@ const Login = () => {
                 },
               }}
             >
-              Login
+              {t('login')}
             </Button>
           </Box>
         </form>

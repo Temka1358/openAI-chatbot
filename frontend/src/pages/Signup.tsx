@@ -4,11 +4,13 @@ import CustomizedInput from "../components/shared/CustomizedInput";
 import { toast } from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 const Signup = () => {
   const navigate = useNavigate();
   const auth = useAuth();
   const [eikenLevel, setEikenLevel] = React.useState("");
+  const { t } = useTranslation();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -70,13 +72,13 @@ const Signup = () => {
               padding={2}
               fontWeight={600}
             >
-              Signup
+              {t('signup')}
             </Typography>
-            <CustomizedInput type="text" name="firstName" label="First Name" />
-            <CustomizedInput type="text" name="lastName" label="Last Name" />
-            <CustomizedInput type="number" name="age" label="Age" />
+            <CustomizedInput type="text" name="firstName" label={t("firstname")} />
+            <CustomizedInput type="text" name="lastName" label={t("lastname")} />
+            <CustomizedInput type="number" name="age" label={t("age")} />
             <FormControl fullWidth sx={{ mt: 2 }}>
-              <InputLabel id="eiken-level-label">English Level</InputLabel>
+              <InputLabel id="eiken-level-label">{t("level")}</InputLabel>
               <Select
                 labelId="eiken-level-label"
                 id="eiken-level"
@@ -92,8 +94,8 @@ const Signup = () => {
                 <MenuItem value={5} sx={{ color: "black" }}>5</MenuItem>
               </Select>
             </FormControl>
-            <CustomizedInput type="email" name="email" label="Email" />
-            <CustomizedInput type="password" name="password" label="Password" />
+            <CustomizedInput type="email" name="email" label={t("email")} />
+            <CustomizedInput type="password" name="password" label={t("password")} />
             <Button
               type="submit"
               sx={{
@@ -111,7 +113,7 @@ const Signup = () => {
                 },
               }}
             >
-              Signup
+              {t('signup')}
             </Button>
           </Box>
         </form>

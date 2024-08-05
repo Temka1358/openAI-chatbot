@@ -1,0 +1,15 @@
+{
+    "login": "login",
+    "signup": "Signup",
+    "firstname" : "First Name",
+    "lastname" : "Last Name",
+    "email" : "Email",
+    "password" : "Password",
+    "confirmPassword" : "Confirm Password",
+    "age": "Age",
+    "level": "English Level",
+    "goToChat": "Go to chat",
+    "logout": "Logout",
+    "setLevel" : "Set English Level",
+    "clearConversation" : "Clear Conversation"
+  }

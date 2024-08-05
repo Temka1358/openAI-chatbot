@@ -11,7 +11,7 @@ import {
   sendChatRequest,
 } from "../helpers/api-communicator";
 import toast from "react-hot-toast";
-
+import { useTranslation } from 'react-i18next';
 type Message = {
   role: "user" | "assistant";
   content: string;
@@ -23,6 +23,7 @@ const Chat = () => {
   const chatContainerRef = useRef<HTMLDivElement | null>(null); // Ref for chat container
   const auth = useAuth();
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
+  const { t } = useTranslation();
 
   const handleSubmit = async () => {
     const content = inputRef.current?.value as string;
@@ -155,11 +156,11 @@ const Chat = () => {
           >
             {auth?.user?.name[0]}
           </Avatar>
-          <Typography sx={{ mx: "auto", fontFamily: "work sans" }}>
+          {/* <Typography sx={{ mx: "auto", fontFamily: "work sans" }}>
             You are talking to a ChatBOT
-          </Typography>
+          </Typography> */}
           <Box sx={{ mx: "auto", my: 2 }}>
-            <Typography>Set English level</Typography>
+            <Typography>{t('setLevel')}</Typography>
             <FormControl fullWidth sx={{ maxWidth: 200 }}>
               <Select
                 id="user-level"
@@ -177,7 +178,7 @@ const Chat = () => {
             </FormControl>
           </Box>
           <Typography sx={{ mx: "auto", fontFamily: "work sans", my: 4, p: 3 }}>
-            You can ask any question you want. Example: Can you explain me past perfect tense?
+          You can ask any question you want. For example: <br/><span style={{ fontWeight: "bold" }}>Can you explain the past perfect tense?' or 'What are the rules for using articles in English?</span>
           </Typography>
           <Button
             onClick={handleDeleteChats}
@@ -194,7 +195,7 @@ const Chat = () => {
               },
             }}
           >
-            Clear Conversations
+            {t("clearConversation")}
           </Button>
         </Box>
       </Box>
@@ -215,7 +216,7 @@ const Chat = () => {
             fontWeight: "600",
           }}
         >
-          Ask Anything, Anytime, Anywhere
+          Chat in English Now!
         </Typography>
         <Box
           ref={chatContainerRef}
